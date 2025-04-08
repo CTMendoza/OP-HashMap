@@ -1,10 +1,11 @@
+import { LinkedList } from "./linkedList.js";
 class HashMap {
     constructor () {
         this.loadFactor = 0.75 // a number that we assign our hash map to at the start. 
                         //It’s the factor that will determine when it is a good time to grow our buckets array. 
                         // Hash map implementations across various languages use a load factor between 0.75 and 1.
         this.capacity = 16 //total number of buckets currently
-        this.buckets = new Array(this.capacity)
+        this.buckets = new Array(this.capacity).fill(null).map(() => new LinkedList())
     }
     hash(key) {
         let hashCode = 0;
@@ -17,9 +18,23 @@ class HashMap {
         }
         return hashCode;
     }
+
+    set(key,value) {
+        let bucket = this.hash(key)
+        let currentNode = this.buckets[bucket].updateNode(key)
+        if(currentNode) {
+            currentNode.value = value
+        } else {
+            this.buckets[bucket].append(key,value)
+        }
+    }
 }
 
 let h = new HashMap()
 
-console.log(h.hash('zaramamalamanana'))
-console.log(h.buckets[1])
+h.set('zaramamalamanana', 4)
+console.log(h.buckets)
+h.set('zaramamalamanana', 5)
+console.log(h.buckets)
+h.set('bingbong', 'bongbing')
+console.log(h.buckets)
