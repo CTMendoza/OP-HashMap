@@ -28,6 +28,12 @@ class HashMap {
             this.buckets[bucket].append(key,value)
         }
     }
+
+    //takes one argument as a key and returns the value that is assigned to this key. If a key is not found, return null.
+    get(key) {
+        let bucket = this.hash(key)
+        return this.buckets[bucket].getValue(key)
+    }
 }
 
 let h = new HashMap()
@@ -38,3 +44,4 @@ h.set('zaramamalamanana', 5)
 console.log(h.buckets)
 h.set('bingbong', 'bongbing')
 console.log(h.buckets)
+console.log(h.get('bingbong'))
