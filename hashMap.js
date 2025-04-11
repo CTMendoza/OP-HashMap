@@ -47,7 +47,7 @@ class HashMap {
     remove(key) {
         let bucket = this.hash(key)
         let currentNode = this.buckets[bucket].head
-        let previousNode 
+        let previous
         if(currentNode === null) {
             return false
         }
@@ -55,17 +55,31 @@ class HashMap {
         while(currentNode !== null) {
 
             if(currentNode.key === key) {
-                if(previousNode === undefined) {
+                if(previous === undefined) {
                     this.buckets[bucket].head = currentNode.nextNode
                 } else {
-                    previousNode.nextNode = currentNode.nextNode
+                    previous.nextNode = currentNode.nextNode
                 }
                 return true
             }
-            previousNode = currentNode
+            previous = currentNode
             currentNode = currentNode.nextNode
         }
-        // return currentNode
+    }
+
+    //returns the number of stored keys in the hash map.
+    length() {
+        let count = 0
+        for(let i = 0; i < this.buckets.length ; i++) {
+            count += this.buckets[i].size()
+        }
+        return count
+    }
+    //  removes all entries in the hash map.
+    clear() {
+        for(let i = 0; i < this.buckets.length ; i++) {
+            this.buckets[i].head = null
+        }
     }
 }
 
@@ -84,10 +98,16 @@ h.set('ice cream', 'white')
 h.set('jacket', 'blue')
 h.set('kite', 'pink')
 h.set('lion', 'golden')
+h.set('ocean', 'blue')
 console.log(JSON.stringify(h.buckets, null, 2))
-h.remove("hat");
+console.log('length of hashMap is: ', h.length())
+h.remove("ocean");
 console.log(JSON.stringify(h.buckets, null, 2))
-console.log(h.get("hat"))
+console.log(h.get("ocean"))
+console.log('length of hashMap is: ', h.length())
+h.clear()
+console.log(JSON.stringify(h.buckets, null, 2))
+
 
 
 
