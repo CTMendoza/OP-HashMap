@@ -181,6 +181,21 @@ class LinkedList {
             }
             return null
         }
+        
+        getKey() {
+            let current = this.head
+            if(current === null) {
+                return null
+            }
+
+            while(current !== null) {
+                if(current.key !== null) {
+                    return current.value
+                }
+                current = current.nextNode
+            }
+            return null
+        }
 }
 
 // create Node class

@@ -81,6 +81,14 @@ class HashMap {
             this.buckets[i].head = null
         }
     }
+    //  returns an array containing all the keys inside the hash map.
+    keys() {
+        let keyArray = []
+        for(let i = 0; i < this.buckets.length ; i++) {
+            keyArray.push(this.buckets[i].getKey())
+        }
+        return keyArray
+    }
 }
 
 let h = new HashMap()
@@ -105,8 +113,8 @@ h.remove("ocean");
 console.log(JSON.stringify(h.buckets, null, 2))
 console.log(h.get("ocean"))
 console.log('length of hashMap is: ', h.length())
-h.clear()
 console.log(JSON.stringify(h.buckets, null, 2))
+console.log(h.keys())
 
 
 
