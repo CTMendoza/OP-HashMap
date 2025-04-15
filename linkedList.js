@@ -182,19 +182,49 @@ class LinkedList {
             return null
         }
         
-        getKey() {
+        getKeys() {
             let current = this.head
+            let keysArray = []
             if(current === null) {
-                return null
+                return []
             }
 
             while(current !== null) {
                 if(current.key !== null) {
-                    return current.value
+                    keysArray.push(current.key)
                 }
                 current = current.nextNode
             }
-            return null
+            return keysArray
+        }
+
+        getValues() {
+            let current = this.head
+            let valuesArray = []
+            if(current === null) {
+                return []
+            }
+
+            while(current !== null) {
+                if(current.value !== null) {
+                    valuesArray.push(current.value)
+                }
+                current = current.nextNode
+            }
+            return valuesArray
+        }
+
+        getKeyValuePair() {
+            let current = this.head
+            let pairArray = []
+
+            while(current !== null) {
+                if(current.key !== null) {
+                    pairArray.push([current.key, current.value])
+                }
+                current = current.nextNode
+            }
+            return pairArray
         }
 }
 

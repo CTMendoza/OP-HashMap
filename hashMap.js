@@ -85,9 +85,26 @@ class HashMap {
     keys() {
         let keyArray = []
         for(let i = 0; i < this.buckets.length ; i++) {
-            keyArray.push(this.buckets[i].getKey())
+            keyArray = keyArray.concat(this.buckets[i].getKeys())
         }
         return keyArray
+    }
+    //returns an array containing all the values.
+    values() {
+        let valueArray = []
+        for(let i = 0; i < this.buckets.length; i++) {
+            valueArray = valueArray.concat(this.buckets[i].getValues())
+        }
+        return valueArray
+    }
+
+    //returns an array that contains each key, value pair. Example: [[firstKey, firstValue], [secondKey, secondValue]]
+    entries() {
+        let pairsArray = []
+        for(let i = 0; i < this.buckets.length; i++) {
+            pairsArray = pairsArray.concat(this.buckets[i].getKeyValuePair())
+        }
+        return pairsArray
     }
 }
 
@@ -115,6 +132,8 @@ console.log(h.get("ocean"))
 console.log('length of hashMap is: ', h.length())
 console.log(JSON.stringify(h.buckets, null, 2))
 console.log(h.keys())
+console.log(h.values())
+console.log(h.entries())
 
 
 
