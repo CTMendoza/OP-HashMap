@@ -6,6 +6,7 @@ class HashMap {
                         // Hash map implementations across various languages use a load factor between 0.75 and 1.
         this.capacity = 16 //total number of buckets currently
         this.buckets = new Array(this.capacity).fill(null).map(() => new LinkedList())
+        this.count = 0
     }
     hash(key) {
         let hashCode = 0;
@@ -20,14 +21,24 @@ class HashMap {
     }
 
     set(key,value) {
-        let bucket = this.hash(key)
-        let currentNode = this.buckets[bucket].updateNode(key)
-        if(currentNode) {
-            currentNode.value = value
-        } else {
-            this.buckets[bucket].append(key,value)
+        let bucket = this.hash(key);
+        let currentNode = this.buckets[bucket].updateNode(key);
+
+        if (currentNode) {
+        // key exists, just update the value
+        currentNode.value = value;
+        }   else {
+        // new key being added
+        this.buckets[bucket].append(key, value);
+        this.count++; // 👈 increment the count
+
+        // Check load factor AFTER adding
+        if (this.count / this.capacity > this.loadFactor) {
+            this._resize();
         }
     }
+  }
+
 
     //takes one argument as a key and returns the value that is assigned to this key. If a key is not found, return null.
     get(key) {
@@ -60,6 +71,7 @@ class HashMap {
                 } else {
                     previous.nextNode = currentNode.nextNode
                 }
+                this.count--;
                 return true
             }
             previous = currentNode
@@ -73,7 +85,7 @@ class HashMap {
         for(let i = 0; i < this.buckets.length ; i++) {
             count += this.buckets[i].size()
         }
-        return count
+        return this.count
     }
     //  removes all entries in the hash map.
     clear() {
@@ -106,6 +118,21 @@ class HashMap {
         }
         return pairsArray
     }
+
+    _resize() {
+        console.log("Resizing triggered!")
+        let currentKPPairs = this.entries()
+        //Temporarily store the current key value pairs before replacing buckets.
+        this.capacity *= 2
+        console.log("New capacity after doubling:", this.capacity);
+        this.buckets = new Array(this.capacity).fill(null).map(() => new LinkedList())
+
+        for(let i = 0; i < currentKPPairs.length ; i++) {
+            let pair = currentKPPairs[i];
+            let bucket = this.hash(pair.key); // Rehash the key for new capacity
+            this.buckets[bucket].append(pair.key, pair.value);
+        }
+    }
 }
 
 let h = new HashMap()
@@ -123,17 +150,9 @@ h.set('ice cream', 'white')
 h.set('jacket', 'blue')
 h.set('kite', 'pink')
 h.set('lion', 'golden')
-h.set('ocean', 'blue')
-console.log(JSON.stringify(h.buckets, null, 2))
-console.log('length of hashMap is: ', h.length())
-h.remove("ocean");
-console.log(JSON.stringify(h.buckets, null, 2))
-console.log(h.get("ocean"))
-console.log('length of hashMap is: ', h.length())
-console.log(JSON.stringify(h.buckets, null, 2))
-console.log(h.keys())
-console.log(h.values())
-console.log(h.entries())
+h.set('monkey', 'brown')
+console.log(h.length())
+console.log("New capacity:", h.capacity); // Should be doubled from 16 to 32
 
 
 

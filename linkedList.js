@@ -154,9 +154,6 @@ class LinkedList {
 
         updateNode(key) {
             let current = this.head
-            if(current === null) {
-                return null
-            }
 
             while(current !== null) {
                 if(current.key === key) {
@@ -220,7 +217,7 @@ class LinkedList {
 
             while(current !== null) {
                 if(current.key !== null) {
-                    pairArray.push([current.key, current.value])
+                    pairArray.push({key: current.key, value: current.value})
                 }
                 current = current.nextNode
             }
